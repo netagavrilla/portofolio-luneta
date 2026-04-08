@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>WeFundIt — Detail Project | Portfolio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+
+<style>
+/* ═══════════════════════════
+   DESIGN TOKENS
+═══════════════════════════ */
+:root {
+  --bg-deep:    #13101f;
+  --bg-base:    #1e1a30;
+  --bg-mid:     #2e2848;
+  --bg-soft:    #3a345b;
+  --accent:     #43c8dd;
+  --accent-dim: rgba(67,200,221,.15);
+  --sec:        #d183a9;
+  --sec-dim:    rgba(209,131,169,.13);
+  --purple:     #71557a;
+  --dark:       #4b1535;
+  --txt:        #ede8f5;
+  --muted:      rgba(237,232,245,.52);
+  --border:     rgba(237,232,245,.08);
+  --glass:      rgba(255,255,255,.04);
+  --glass-2:    rgba(255,255,255,.07);
+  --r:          16px;
+  --r-lg:       24px;
+  --ease:       cubic-bezier(.22,1,.36,1);
+  --serif:      'Instrument Serif', serif;
+  --sans:       'Outfit', sans-serif;
+}
+
+/* ═══════════════════════════
+   BASE
+═══════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg-base);
+  color: var(--txt);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--accent); color: var(--bg-deep); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ═══════════════════════════
+   UTILITIES
+═══════════════════════════ */
+.grad-text {
+  background: linear-gradient(110deg, var(--accent) 0%, var(--sec) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.serif { font-family: var(--serif); }
+
+section { padding: 88px 0; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: .67rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: .9rem;
+}
+.section-label::before { content: ''; width: 20px; height: 1px; background: currentColor; }
+
+.hr-fade {
+  border: none; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(67,200,221,.18), rgba(209,131,169,.18), transparent);
+  margin: 0;
+}
+
+/* ═══════════════════════════
+   FADE-UP ANIMATION
+═══════════════════════════ */
+.fu { opacity: 0; transform: translateY(28px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.fu.in { opacity: 1; transform: none; }
+.fu.d1 { transition-delay: .07s; } .fu.d2 { transition-delay: .14s; }
+.fu.d3 { transition-delay: .21s; } .fu.d4 { transition-delay: .28s; }
+.fu.d5 { transition-delay: .35s; }
+
+/* ═══════════════════════════
+   GLASS CARD
+═══════════════════════════ */
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .3s;
+}
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 56px rgba(0,0,0,.35);
+  border-color: rgba(67,200,221,.18);
+}
+
+/* ═══════════════════════════
+   NAVBAR
+═══════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 18px 0;
+  transition: padding .4s var(--ease), background .4s, box-shadow .4s;
+}
+#nav.scrolled {
+  background: rgba(15,12,28,.88);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  padding: 11px 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,.05);
+}
+.nav-wrap {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: .8rem; font-weight: 600; color: var(--muted);
+  padding: 7px 16px; border-radius: 50px;
+  border: 1px solid var(--border);
+  transition: all .25s ease;
+}
+.nav-back:hover { color: var(--accent); border-color: rgba(67,200,221,.3); background: var(--accent-dim); }
+.nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--txt); }
+.nav-logo em { font-style: normal; color: var(--accent); }
+
+/* ═══════════════════════════
+   HERO
+═══════════════════════════ */
+#hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding-top: 100px; padding-bottom: 72px;
+  position: relative; overflow: hidden;
+  background: linear-gradient(150deg, #0d0b1a 0%, var(--bg-base) 35%, #261d3a 65%, #311624 100%);
+}
+.hero-grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(67,200,221,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(67,200,221,.03) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+.orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(80px); }
+.orb-1 { width: 500px; height: 500px; background: rgba(67,200,221,.08); top: -100px; right: -80px; }
+.orb-2 { width: 360px; height: 360px; background: rgba(209,131,169,.1); bottom: -60px; left: -60px; }
+.orb-3 { width: 240px; height: 240px; background: rgba(113,85,122,.15); top: 38%; left: 38%; }
+
+.hero-inner { position: relative; z-index: 2; }
+
+/* back breadcrumb */
+.hero-breadcrumb {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .72rem; color: var(--muted);
+  margin-bottom: 1.4rem;
+}
+.hero-breadcrumb a { color: var(--accent); transition: opacity .2s; }
+.hero-breadcrumb a:hover { opacity: .75; }
+
+/* badges */
+.badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.6rem; }
+.proj-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .68rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 50px;
+}
+.badge-web { background: var(--accent-dim); border: 1px solid rgba(67,200,221,.28); color: var(--accent); }
+.badge-feat { background: var(--sec-dim); border: 1px solid rgba(209,131,169,.28); color: var(--sec); }
+.badge-php { background: rgba(113,85,122,.2); border: 1px solid rgba(113,85,122,.32); color: #c8a2d8; }
+/* new badge: simulasi */
+.badge-sim { background: rgba(247,200,50,.1); border: 1px solid rgba(247,200,50,.28); color: #f0c844; }
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+  line-height: 1.05; letter-spacing: -.5px;
+  color: var(--txt); margin-bottom: .8rem;
+}
+.hero-desc {
+  font-size: 1rem; font-weight: 300; color: var(--muted);
+  max-width: 480px; line-height: 1.85; margin-bottom: 2.2rem;
+}
+.hero-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 3rem; }
+
+/* buttons */
+.btn-glow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--accent), #2ab5c8);
+  color: var(--bg-deep); font-family: var(--sans); font-weight: 700; font-size: .85rem;
+  padding: 12px 26px; border-radius: 50px; border: none; cursor: pointer;
+  box-shadow: 0 4px 22px rgba(67,200,221,.3);
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.btn-glow:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(67,200,221,.48); color: var(--bg-deep); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; border: 1.5px solid var(--border);
+  color: var(--txt); font-family: var(--sans); font-weight: 600; font-size: .85rem;
+  padding: 11px 22px; border-radius: 50px;
+  transition: all .3s var(--ease);
+}
+.btn-ghost:hover { border-color: var(--sec); color: var(--sec); transform: translateY(-3px); }
+
+/* hero stats strip */
+.hero-stats {
+  display: flex; flex-wrap: wrap; gap: 0;
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden; max-width: 480px;
+  backdrop-filter: blur(12px);
+}
+.hs-item { flex: 1; min-width: 100px; padding: .9rem 1.2rem; text-align: center; }
+.hs-item + .hs-item { border-left: 1px solid var(--border); }
+.hs-num { font-family: var(--serif); font-size: 1.7rem; color: var(--accent); line-height: 1; }
+.hs-lbl { font-size: .62rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); margin-top: 2px; }
+
+/* hero right card */
+.hero-card {
+  background: var(--glass-2); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 2rem;
+  backdrop-filter: blur(16px); position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: rgba(67,200,221,.06); border-radius: 50%; filter: blur(40px);
+}
+.hc-title { font-family: var(--serif); font-size: 1rem; margin-bottom: 1.2rem; color: var(--txt); }
+.hc-row {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 9px 0; border-bottom: 1px solid var(--border);
+}
+.hc-row:last-child { border-bottom: none; }
+.hc-ico {
+  width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: .8rem;
+}
+.hci-a { background: var(--accent-dim); color: var(--accent); }
+.hci-s { background: var(--sec-dim); color: var(--sec); }
+.hci-p { background: rgba(113,85,122,.2); color: #c8a2d8; }
+.hci-w { background: rgba(247,200,50,.12); color: #f0c844; }
+.hc-k { font-size: .63rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.hc-v { font-size: .84rem; font-weight: 600; color: var(--txt); }
+
+/* ═══════════════════════════
+   OVERVIEW
+═══════════════════════════ */
+#overview { background: linear-gradient(180deg, var(--bg-base), var(--bg-mid)); }
+
+.overview-text {
+  font-size: .95rem; font-weight: 300; color: rgba(237,232,245,.72);
+  line-height: 1.92;
+}
+.overview-text p { margin-bottom: 1rem; }
+.overview-text p:last-child { margin-bottom: 0; }
+.overview-text strong { color: var(--accent); font-weight: 600; }
+
+/* ═══════════════════════════
+   TUJUAN
+═══════════════════════════ */
+#tujuan { background: var(--bg-mid); }
+
+.tujuan-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.tujuan-list li {
+  display: flex; align-items: flex-start; gap: 13px;
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1rem 1.3rem;
+  transition: border-color .25s, background .25s;
+}
+.tujuan-list li:hover { border-color: rgba(67,200,221,.2); background: var(--glass-2); }
+.tujuan-num {
+  width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+  background: var(--accent-dim); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+}
+.tujuan-text { font-size: .88rem; color: rgba(237,232,245,.75); line-height: 1.65; font-weight: 300; }
+.tujuan-text strong { color: var(--txt); font-weight: 600; }
+
+/* ═══════════════════════════
+   FITUR
+═══════════════════════════ */
+#fitur { background: linear-gradient(180deg, var(--bg-mid), var(--bg-base)); }
+
+.fitur-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; }
+.fitur-card {
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 1.6rem;
+  position: relative; overflow: hidden;
+  transition: transform .35s var(--ease), box-shadow .35s, border-color .3s;
+}
+.fitur-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+.fc-a::before { background: linear-gradient(90deg, var(--accent), #2ab4c9); }
+.fc-s::before { background: linear-gradient(90deg, var(--sec), #b55e8e); }
+.fc-p::before { background: linear-gradient(90deg, var(--purple), #9a6fa8); }
+.fc-d::before { background: linear-gradient(90deg, var(--dark), #7a2254); }
+.fitur-card:hover { transform: translateY(-6px); box-shadow: 0 16px 44px rgba(0,0,0,.32); border-color: rgba(67,200,221,.16); }
+.fitur-ico {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: .95rem;
+}
+.fi-a { background: var(--accent-dim); color: var(--accent); }
+.fi-s { background: var(--sec-dim); color: var(--sec); }
+.fi-p { background: rgba(113,85,122,.22); color: #c8a2d8; }
+.fi-d { background: rgba(75,21,53,.35); color: #e08aab; }
+.fitur-name { font-size: .93rem; font-weight: 700; color: var(--txt); margin-bottom: .4rem; }
+.fitur-desc { font-size: .8rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+/* ═══════════════════════════
+   TECH STACK
+═══════════════════════════ */
+#techstack { background: var(--bg-base); }
+
+.stack-cloud { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2rem; }
+.stack-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .82rem; font-weight: 600;
+  padding: 9px 18px; border-radius: 50px; border: 1px solid;
+  transition: transform .25s var(--ease), box-shadow .25s;
+}
+.stack-tag:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.22); }
+.st-html  { background: rgba(228,77,38,.1);  border-color: rgba(228,77,38,.25);  color: #f0814a; }
+.st-css   { background: rgba(21,114,182,.1); border-color: rgba(21,114,182,.25); color: #5ba4e8; }
+.st-js    { background: rgba(247,223,30,.1); border-color: rgba(247,223,30,.2);  color: #e8d04a; }
+.st-php   { background: rgba(119,123,180,.12);border-color:rgba(119,123,180,.28);color: #a8abdc; }
+.st-mysql { background: rgba(0,117,143,.1);  border-color: rgba(0,117,143,.25);  color: #4bbfcc; }
+.st-bs    { background: rgba(134,46,192,.1); border-color: rgba(134,46,192,.25); color: #c07de8; }
+.st-figma { background: rgba(240,90,40,.1);  border-color: rgba(240,90,40,.22);  color: #f07c5a; }
+
+/* ═══════════════════════════
+   PERAN SAYA
+═══════════════════════════ */
+#peran { background: linear-gradient(180deg, var(--bg-base), var(--bg-mid)); }
+
+.peran-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
+.peran-card {
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 1.8rem;
+  position: relative; overflow: hidden;
+  transition: all .35s var(--ease);
+}
+.peran-card:hover { transform: translateY(-6px); box-shadow: 0 18px 48px rgba(0,0,0,.3); border-color: rgba(209,131,169,.2); }
+.peran-card::after {
+  content: ''; position: absolute; bottom: -50px; right: -50px;
+  width: 130px; height: 130px; border-radius: 50%;
+  filter: blur(35px); pointer-events: none;
+}
+.pc-1::after { background: rgba(67,200,221,.08); }
+.pc-2::after { background: rgba(209,131,169,.08); }
+.pc-3::after { background: rgba(113,85,122,.12); }
+.peran-tag {
+  display: inline-block; font-size: .64rem; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 50px; margin-bottom: 1rem;
+}
+.pt-a { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(67,200,221,.25); }
+.pt-s { background: var(--sec-dim); color: var(--sec); border: 1px solid rgba(209,131,169,.25); }
+.pt-p { background: rgba(113,85,122,.2); color: #c8a2d8; border: 1px solid rgba(113,85,122,.3); }
+.peran-title { font-family: var(--serif); font-size: 1.1rem; margin-bottom: .55rem; }
+.peran-desc { font-size: .82rem; color: var(--muted); line-height: 1.72; font-weight: 300; }
+.peran-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+.peran-skill {
+  font-size: .67rem; font-weight: 500; padding: 3px 9px; border-radius: 50px;
+  background: rgba(255,255,255,.06); border: 1px solid var(--border); color: var(--muted);
+}
+
+/* ═══════════════════════════
+   GALLERY
+═══════════════════════════ */
+#gallery { background: var(--bg-mid); }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 12px; margin-top: 2rem;
+}
+.gal-item {
+  border-radius: var(--r); overflow: hidden;
+  border: 1px solid var(--border); position: relative;
+  cursor: pointer;
+}
+.gal-item:nth-child(1) { grid-column: 1 / 4; }
+.gal-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .5s var(--ease);
+  display: block;
+}
+.gal-item:hover img { transform: scale(1.07); }
+.gal-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(10,8,20,.65) 0%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
+  display: flex; align-items: flex-end; padding: 1rem;
+}
+.gal-item:hover .gal-overlay { opacity: 1; }
+.gal-label {
+  font-size: .72rem; font-weight: 600; color: var(--txt);
+  letter-spacing: .5px;
+}
+
+/* video embed */
+.gal-video-wrap {
+  width: 100%; aspect-ratio: 16/9; position: relative; background: #0d0b1a;
+}
+.gal-video-wrap iframe {
+  width: 100%; height: 100%; border: none; display: block;
+}
+/* video placeholder (shown when no real URL) */
+.gal-video-ph {
+  width: 100%; aspect-ratio: 16/9;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background: linear-gradient(135deg, #0d0b1a 0%, #1e1330 50%, #2a0e1e 100%);
+  font-size: .82rem; font-weight: 500; color: var(--muted);
+  cursor: pointer; transition: background .3s;
+  text-align: center; padding: 1rem;
+}
+.gal-video-ph:hover { background: linear-gradient(135deg, #141028, #261840, #360f24); }
+.gal-video-ph .yt-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(255,60,60,.15); border: 1.5px solid rgba(255,60,60,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: #ff4444;
+  transition: transform .3s var(--ease), background .3s;
+}
+.gal-video-ph:hover .yt-icon { transform: scale(1.1); background: rgba(255,60,60,.25); }
+.gal-video-ph .yt-title { font-size: .88rem; color: var(--txt); font-weight: 600; }
+.gal-video-ph .yt-sub { font-size: .72rem; color: var(--muted); }
+
+/* placeholder img */
+.gal-ph {
+  width: 100%; aspect-ratio: 16/9;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  font-size: .78rem; font-weight: 500; color: var(--muted);
+}
+.gal-ph i { font-size: 2rem; color: var(--border); }
+.gal-ph.ph-2 { background: linear-gradient(135deg, #1e1630, #3a1630); }
+.gal-ph.ph-3 { background: linear-gradient(135deg, #1a2030, #1e3040); }
+.gal-ph.ph-4 { background: linear-gradient(135deg, #281830, #3a1628); }
+
+/* gallery note */
+.gallery-note {
+  margin-top: 1.2rem;
+  background: rgba(247,200,50,.05); border: 1px solid rgba(247,200,50,.18);
+  border-radius: var(--r); padding: 1rem 1.4rem;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.gallery-note i { color: #f0c844; font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+.gallery-note p { font-size: .8rem; color: rgba(237,232,245,.6); font-weight: 300; line-height: 1.65; margin: 0; }
+
+/* ═══════════════════════════
+   TANTANGAN & SOLUSI
+═══════════════════════════ */
+#tantangan { background: linear-gradient(180deg, var(--bg-mid), var(--bg-base)); }
+
+.ts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
+@media(max-width:640px) { .ts-grid { grid-template-columns: 1fr; } }
+
+.ts-card {
+  border-radius: var(--r-lg); padding: 2rem;
+  position: relative; overflow: hidden;
+}
+.ts-challenge {
+  background: rgba(209,131,169,.05);
+  border: 1px solid rgba(209,131,169,.15);
+}
+.ts-solution {
+  background: rgba(67,200,221,.05);
+  border: 1px solid rgba(67,200,221,.13);
+}
+.ts-head { display: flex; align-items: center; gap: 10px; margin-bottom: 1.3rem; }
+.ts-ico {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: .95rem;
+}
+.ts-ico-c { background: var(--sec-dim); color: var(--sec); }
+.ts-ico-s { background: var(--accent-dim); color: var(--accent); }
+.ts-title { font-size: .93rem; font-weight: 700; }
+.ts-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.ts-list li {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-size: .82rem; color: var(--muted); line-height: 1.6; font-weight: 300;
+}
+.ts-list li::before {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 7px;
+}
+.ts-challenge .ts-list li::before { background: var(--sec); }
+.ts-solution .ts-list li::before { background: var(--accent); }
+
+/* ═══════════════════════════
+   HASIL / IMPACT
+═══════════════════════════ */
+#hasil { background: var(--bg-base); }
+
+.impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.1rem; margin-top: 2rem; }
+.impact-card {
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 1.6rem 1.3rem; text-align: center;
+  transition: all .3s var(--ease);
+}
+.impact-card:hover { transform: translateY(-5px); border-color: rgba(67,200,221,.18); box-shadow: 0 12px 36px rgba(67,200,221,.08); }
+.impact-icon { font-size: 1.8rem; margin-bottom: .7rem; }
+.impact-value { font-family: var(--serif); font-size: 1.6rem; color: var(--accent); line-height: 1; margin-bottom: .3rem; }
+.impact-label { font-size: .72rem; color: var(--muted); font-weight: 400; line-height: 1.4; }
+
+.hasil-desc {
+  background: rgba(67,200,221,.05); border: 1px solid rgba(67,200,221,.12);
+  border-radius: var(--r-lg); padding: 1.8rem 2rem; margin-top: 1.6rem;
+}
+.hasil-desc p {
+  font-size: .9rem; color: rgba(237,232,245,.68);
+  font-weight: 300; line-height: 1.88; margin-bottom: .85rem;
+}
+.hasil-desc p:last-child { margin-bottom: 0; }
+
+/* ═══════════════════════════
+   CATATAN PROJECT (NEW)
+═══════════════════════════ */
+#catatan { background: var(--bg-mid); }
+
+.catatan-box {
+  background: rgba(247,200,50,.04);
+  border: 1px solid rgba(247,200,50,.16);
+  border-radius: var(--r-lg); padding: 2.4rem 2rem;
+  position: relative; overflow: hidden;
+}
+.catatan-box::before {
+  content: ''; position: absolute; top: -50px; right: -50px;
+  width: 200px; height: 200px;
+  background: rgba(247,200,50,.04); border-radius: 50%; filter: blur(50px);
+}
+.catatan-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 1.6rem;
+}
+.catatan-ico {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  background: rgba(247,200,50,.12); color: #f0c844;
+  display: flex; align-items: center; justify-content: center; font-size: 1.15rem;
+}
+.catatan-header h4 { font-family: var(--serif); font-size: 1.15rem; color: var(--txt); margin: 0; }
+.catatan-header p { font-size: .75rem; color: var(--muted); margin: 2px 0 0; }
+
+.catatan-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.8rem; }
+.catatan-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  border-radius: var(--r); padding: .9rem 1.2rem;
+}
+.catatan-item-ico {
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: .8rem;
+}
+.ci-warn { background: rgba(247,200,50,.12); color: #f0c844; }
+.ci-doc  { background: var(--accent-dim); color: var(--accent); }
+.ci-vid  { background: rgba(255,60,60,.12); color: #ff6666; }
+.catatan-item-text { font-size: .84rem; color: rgba(237,232,245,.7); line-height: 1.65; font-weight: 300; }
+.catatan-item-text strong { color: var(--txt); font-weight: 600; }
+
+.catatan-proof {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: .5rem;
+}
+.proof-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .78rem; font-weight: 600; padding: 8px 16px; border-radius: 50px;
+  transition: transform .25s var(--ease), box-shadow .25s;
+}
+.proof-tag:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+.pt-yt   { background: rgba(255,60,60,.1); border: 1px solid rgba(255,60,60,.28); color: #ff6666; }
+.pt-doc  { background: var(--accent-dim); border: 1px solid rgba(67,200,221,.28); color: var(--accent); }
+
+/* ═══════════════════════════
+   CTA / KEMBALI
+═══════════════════════════ */
+#cta { background: linear-gradient(180deg, var(--bg-base), var(--bg-deep)); padding: 72px 0; }
+
+.cta-box {
+  background: linear-gradient(135deg, rgba(67,200,221,.06), rgba(209,131,169,.06));
+  border: 1px solid rgba(67,200,221,.12);
+  border-radius: var(--r-lg); padding: 3.5rem 2rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-box::before {
+  content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 300px;
+  background: rgba(67,200,221,.05); border-radius: 50%; filter: blur(60px);
+}
+.cta-box h3 { font-family: var(--serif); font-size: clamp(1.5rem,3vw,2.2rem); margin-bottom: .6rem; }
+.cta-box p { font-size: .9rem; color: var(--muted); font-weight: 300; max-width: 360px; margin: 0 auto 1.8rem; line-height: 1.8; }
+.cta-btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+/* ═══════════════════════════
+   FOOTER
+═══════════════════════════ */
+footer {
+  background: var(--bg-deep); border-top: 1px solid var(--border);
+  padding: 22px 0;
+}
+.foot-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.foot-logo { font-family: var(--serif); font-size: 1rem; color: var(--txt); }
+.foot-logo em { font-style: normal; color: var(--accent); }
+.foot-copy { font-size: .7rem; color: rgba(237,232,245,.25); }
+
+/* ═══════════════════════════
+   RESPONSIVE
+═══════════════════════════ */
+@media(max-width:991px) {
+  .gallery-grid { grid-template-columns: 1fr 1fr; }
+  .gal-item:nth-child(1) { grid-column: 1 / 3; }
+}
+@media(max-width:640px) {
+  section { padding: 60px 0; }
+  .hero-title { font-size: 2.4rem; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gal-item:nth-child(1) { grid-column: auto; }
+  .ts-grid { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: column; }
+  .hs-item + .hs-item { border-left: none; border-top: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav id="nav">
+  <div class="nav-wrap">
+    <a href="luneta-gavrilla-portfolio.html" class="nav-back"><i class="bi bi-arrow-left"></i> Kembali ke Portfolio</a>
+    <div class="nav-logo">Luneta<em>.</em></div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="container hero-inner" style="max-width:1100px">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="hero-breadcrumb fu">
+          <a href="#">Portfolio</a>
+          <i class="bi bi-chevron-right" style="font-size:.6rem"></i>
+          <span>WeFundIt</span>
+        </div>
+        <div class="badge-row fu d1">
+          <span class="proj-badge badge-web"><span class="badge-dot"></span> Web Project</span>
+          <span class="proj-badge badge-sim"><span class="badge-dot"></span> Simulasi Pembelajaran</span>
+          <span class="proj-badge badge-php"><span class="badge-dot"></span> PHP · MySQL</span>
+        </div>
+        <h1 class="hero-title fu d2">
+          WeFundIt<br>
+          <span class="grad-text">Platform Danus</span><br>
+          Sekolah
+        </h1>
+        <p class="hero-desc fu d3">
+          Platform e-commerce sederhana yang dibuat sebagai simulasi penjualan danus di sekolah secara online — proyek pembelajaran PaaS bersama tim.
+        </p>
+        <!-- CHANGED: Replaced GitHub + Live Demo with YouTube + Laporan -->
+        <div class="hero-btns fu d4">
+          <a href="#gallery" class="btn-glow"><i class="bi bi-youtube"></i> Tonton Demo</a>
+          <a href="#catatan" class="btn-ghost"><i class="bi bi-file-earmark-text"></i> Lihat Laporan</a>
+        </div>
+        <div class="hero-stats fu d5">
+          <div class="hs-item"><div class="hs-num">5+</div><div class="hs-lbl">Fitur Utama</div></div>
+          <div class="hs-item"><div class="hs-num">3</div><div class="hs-lbl">Anggota Tim</div></div>
+          <div class="hs-item"><div class="hs-num">4</div><div class="hs-lbl">Bulan Dev</div></div>
+          <div class="hs-item"><div class="hs-num">2025</div><div class="hs-lbl">Tahun</div></div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 fu d3">
+        <div class="hero-card">
+          <div class="hc-title">Info Proyek</div>
+          <div class="hc-row">
+            <div class="hc-ico hci-a"><i class="bi bi-layers"></i></div>
+            <div><div class="hc-k">Jenis</div><div class="hc-v">Simulasi E-Commerce Sekolah</div></div>
+          </div>
+          <div class="hc-row">
+            <div class="hc-ico hci-s"><i class="bi bi-people"></i></div>
+            <div><div class="hc-k">Tim</div><div class="hc-v">Aisyah · Amanda · Luneta</div></div>
+          </div>
+          <div class="hc-row">
+            <div class="hc-ico hci-a"><i class="bi bi-book"></i></div>
+            <div><div class="hc-k">Mata Pelajaran</div><div class="hc-v">Platform as a Service (PaaS)</div></div>
+          </div>
+          <div class="hc-row">
+            <div class="hc-ico hci-p"><i class="bi bi-building"></i></div>
+            <div><div class="hc-k">Sekolah</div><div class="hc-v">SMK Negeri 2 Depok Sleman</div></div>
+          </div>
+          <div class="hc-row">
+            <div class="hc-ico hci-s"><i class="bi bi-calendar3"></i></div>
+            <div><div class="hc-k">Periode</div><div class="hc-v">Februari — Mei 2025</div></div>
+          </div>
+          <!-- CHANGED: Status now more honest -->
+          <div class="hc-row">
+            <div class="hc-ico hci-w"><i class="bi bi-check2-circle"></i></div>
+            <div>
+              <div class="hc-k">Status</div>
+              <div class="hc-v" style="color:#f0c844">Selesai · Prototype / Simulasi ✦</div>
+            </div>
+          </div>
+          <!-- NEW: source code unavailable note -->
+          <div class="hc-row">
+            <div class="hc-ico hci-s"><i class="bi bi-github"></i></div>
+            <div>
+              <div class="hc-k">Source Code</div>
+              <div class="hc-v" style="color:var(--muted);font-weight:400;font-size:.78rem">Tidak tersedia (tidak ter-backup)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ OVERVIEW ═══════ -->
+<section id="overview">
+  <div class="container" style="max-width:1100px">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5 fu">
+        <div class="section-label">01 — Overview</div>
+        <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.8rem);line-height:1.1;margin-bottom:.5rem">
+          Apa itu<br><span class="grad-text">WeFundIt?</span>
+        </h2>
+        <p style="font-size:.88rem;color:var(--muted);font-weight:300;margin-top:.8rem">
+          Proyek ini dikerjakan dalam mata pelajaran Platform as a Service (PaaS) bersama 2 anggota tim lainnya sebagai simulasi pembelajaran.
+        </p>
+      </div>
+      <div class="col-lg-7 fu d1">
+        <div class="glass-card" style="padding:2rem">
+          <div class="overview-text">
+            <p>
+              <strong>WeFundIt</strong> adalah platform digital berbasis web yang dibuat sebagai <strong>proyek simulasi pembelajaran</strong> dalam mata pelajaran Platform as a Service (PaaS). Project ini mensimulasikan sistem penjualan dana usaha (danus) di lingkungan sekolah secara digital.
+            </p>
+            <p>
+              Sistem ini <strong>tidak digunakan secara langsung</strong> oleh warga sekolah, melainkan dikembangkan sebagai media latihan untuk memahami alur pembuatan aplikasi web — mulai dari tampilan frontend, backend PHP, hingga pengelolaan database.
+            </p>
+            <p>
+              Platform ini dibangun menggunakan <strong>PHP Native</strong>, <strong>MySQL</strong>, dan <strong>Bootstrap 5</strong>, dengan desain antarmuka yang responsif dan mudah digunakan. Source code saat ini tidak tersedia karena tidak dilakukan backup, namun bukti project berupa <strong>video demo</strong> dan <strong>laporan dokumentasi</strong> tetap ada.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ TUJUAN ═══════ -->
+<section id="tujuan">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5 fu">
+      <div class="section-label d-inline-flex">02 — Tujuan Project</div>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.7rem);line-height:1.1">
+        Kenapa WeFundIt <span class="grad-text">dibuat?</span>
+      </h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <ul class="tujuan-list">
+          <li class="fu d1">
+            <div class="tujuan-num">01</div>
+            <div class="tujuan-text"><strong>Digitalisasi Penjualan Danus</strong> — Membangun platform yang memungkinkan siswa melakukan penjualan produk danus secara online tanpa batasan tempat dan waktu.</div>
+          </li>
+          <li class="fu d2">
+            <div class="tujuan-num">02</div>
+            <div class="tujuan-text"><strong>Sistem Pemesanan Efisien</strong> — Menyediakan alur pemesanan yang mudah dengan pilihan metode pembayaran yang fleksibel (transfer atau COD).</div>
+          </li>
+          <li class="fu d3">
+            <div class="tujuan-num">03</div>
+            <div class="tujuan-text"><strong>Rekap Penjualan Otomatis</strong> — Mengintegrasikan sistem pengelolaan produk dan rekap transaksi agar panitia tidak perlu mencatat manual lagi.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <ul class="tujuan-list">
+          <li class="fu d1">
+            <div class="tujuan-num">04</div>
+            <div class="tujuan-text"><strong>Memperluas Jangkauan Pasar</strong> — Membantu memperluas pemasaran produk danus kepada seluruh siswa dan guru di sekolah melalui satu platform terpusat.</div>
+          </li>
+          <li class="fu d2">
+            <div class="tujuan-num">05</div>
+            <div class="tujuan-text"><strong>Pengalaman Belanja yang Nyaman</strong> — Memberikan pengalaman berbelanja yang mudah dan informatif bagi pembeli yang ingin mendukung kegiatan sekolah.</div>
+          </li>
+          <li class="fu d3">
+            <div class="tujuan-num">06</div>
+            <div class="tujuan-text"><strong>Mendukung Digitalisasi Sekolah</strong> — Menerapkan teknologi Platform as a Service (PaaS) sebagai bukti nyata penguasaan kompetensi di jurusan SIJA.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ FITUR ═══════ -->
+<section id="fitur">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5 fu">
+      <div class="section-label d-inline-flex">03 — Fitur Utama</div>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.7rem);line-height:1.1">
+        Apa yang bisa <span class="grad-text">dilakukan?</span>
+      </h2>
+      <p style="color:var(--muted);font-size:.9rem;font-weight:300;max-width:500px;margin:.6rem auto 0;line-height:1.8">
+        Lima fitur inti yang membentuk ekosistem WeFundIt dari sisi pembeli maupun admin.
+      </p>
+    </div>
+    <div class="fitur-grid">
+
+      <div class="fitur-card fc-a fu d1">
+        <div class="fitur-ico fi-a"><i class="bi bi-person-check"></i></div>
+        <div class="fitur-name">Login &amp; Registrasi</div>
+        <div class="fitur-desc">Sistem autentikasi pengguna dengan hak akses berbeda antara pembeli dan administrator. Setiap pengguna memiliki akun pribadi yang aman.</div>
+      </div>
+
+      <div class="fitur-card fc-s fu d2">
+        <div class="fitur-ico fi-s"><i class="bi bi-box-seam"></i></div>
+        <div class="fitur-name">Manajemen Produk (CRUD)</div>
+        <div class="fitur-desc">Admin dapat menambah, mengubah, menghapus produk, serta mengunggah foto produk yang langsung tampil di halaman katalog pembeli.</div>
+      </div>
+
+      <div class="fitur-card fc-p fu d3">
+        <div class="fitur-ico fi-p"><i class="bi bi-cart3"></i></div>
+        <div class="fitur-name">Keranjang Belanja</div>
+        <div class="fitur-desc">Pembeli dapat menambahkan beberapa produk ke keranjang sebelum checkout. Total harga dihitung otomatis sesuai produk dan jumlah yang dipilih.</div>
+      </div>
+
+      <div class="fitur-card fc-d fu d4">
+        <div class="fitur-ico fi-d"><i class="bi bi-bag-check"></i></div>
+        <div class="fitur-name">Proses Checkout</div>
+        <div class="fitur-desc">Alur checkout yang jelas — konfirmasi pesanan, ringkasan total, pilihan metode pembayaran (transfer / COD), hingga penyelesaian transaksi.</div>
+      </div>
+
+      <div class="fitur-card fc-a fu d5">
+        <div class="fitur-ico fi-a"><i class="bi bi-speedometer2"></i></div>
+        <div class="fitur-name">Dashboard Admin</div>
+        <div class="fitur-desc">Halaman khusus admin untuk memantau seluruh transaksi, mengelola stok produk, dan melihat rekap penjualan secara real-time dan otomatis.</div>
+      </div>
+
+      <div class="fitur-card fc-s fu d1">
+        <div class="fitur-ico fi-s"><i class="bi bi-bell"></i></div>
+        <div class="fitur-name">Notifikasi Status Pesanan</div>
+        <div class="fitur-desc">Pembeli mendapatkan informasi terkini mengenai status pesanan mereka — dari konfirmasi pembayaran hingga produk siap diambil.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ TECH STACK ═══════ -->
+<section id="techstack">
+  <div class="container" style="max-width:1100px">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-4 fu">
+        <div class="section-label">04 — Tech Stack</div>
+        <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.7rem);line-height:1.1">
+          Teknologi<br><span class="grad-text">yang dipakai</span>
+        </h2>
+        <p style="font-size:.88rem;color:var(--muted);font-weight:300;margin-top:.9rem;line-height:1.8">
+          Seluruh teknologi dipilih sesuai kompetensi yang dipelajari di sekolah — tanpa framework berat, murni PHP native.
+        </p>
+      </div>
+      <div class="col-lg-8 fu d1">
+        <div class="stack-cloud">
+          <span class="stack-tag st-html"><i class="bi bi-filetype-html"></i> HTML5</span>
+          <span class="stack-tag st-css"><i class="bi bi-filetype-css"></i> CSS3</span>
+          <span class="stack-tag st-js"><i class="bi bi-filetype-js"></i> JavaScript</span>
+          <span class="stack-tag st-php"><i class="bi bi-filetype-php"></i> PHP Native</span>
+          <span class="stack-tag st-mysql"><i class="bi bi-database"></i> MySQL</span>
+          <span class="stack-tag st-bs"><i class="bi bi-bootstrap"></i> Bootstrap 5</span>
+          <span class="stack-tag st-figma"><i class="bi bi-vector-pen"></i> Canva</span>
+        </div>
+        <div class="glass-card" style="padding:1.4rem 1.6rem;margin-top:1.2rem">
+          <div style="display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;gap:0;text-align:center">
+            <div style="padding:.5rem">
+              <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px">Frontend</div>
+              <div style="font-size:.8rem;font-weight:600;color:var(--txt)">HTML · CSS · JS · Bootstrap</div>
+            </div>
+            <div style="background:var(--border)"></div>
+            <div style="padding:.5rem">
+              <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px">Backend</div>
+              <div style="font-size:.8rem;font-weight:600;color:var(--txt)">PHP Native</div>
+            </div>
+            <div style="background:var(--border)"></div>
+            <div style="padding:.5rem">
+              <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px">Database</div>
+              <div style="font-size:.8rem;font-weight:600;color:var(--txt)">MySQL</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ PERAN ═══════ -->
+<section id="peran">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5 fu">
+      <div class="section-label d-inline-flex">05 — Peran Saya</div>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.7rem);line-height:1.1">
+        Kontribusi saya <span class="grad-text">di proyek ini</span>
+      </h2>
+    </div>
+    <div class="peran-grid">
+
+      <div class="peran-card pc-1 fu d1">
+        <div class="peran-tag pt-a">Frontend Dev</div>
+        <h4 class="peran-title serif">Pengembangan Antarmuka</h4>
+        <p class="peran-desc">Bertanggung jawab membangun seluruh tampilan halaman menggunakan HTML, CSS, Bootstrap 5, dan JavaScript. Fokus pada tampilan yang responsif, rapi, dan nyaman digunakan di perangkat apapun.</p>
+        <div class="peran-skills">
+          <span class="peran-skill">HTML5</span>
+          <span class="peran-skill">CSS3</span>
+          <span class="peran-skill">Bootstrap 5</span>
+          <span class="peran-skill">JavaScript</span>
+        </div>
+      </div>
+
+      <div class="peran-card pc-2 fu d2">
+        <div class="peran-tag pt-s">UI Design</div>
+        <h4 class="peran-title serif">Desain UI/UX</h4>
+        <p class="peran-desc">Terlibat dalam proses desain antarmuka menggunakan Canva — mulai dari wireframe, pemilihan warna, hingga layout yang intuitif untuk pengguna siswa dan panitia danus.</p>
+        <div class="peran-skills">
+          <span class="peran-skill">Canva</span>
+          <span class="peran-skill">Wireframing</span>
+          <span class="peran-skill">Prototyping</span>
+        </div>
+      </div>
+
+      <div class="peran-card pc-3 fu d3">
+        <div class="peran-tag pt-p">Sistem &amp; DB</div>
+        <h4 class="peran-title serif">Perencanaan &amp; Database</h4>
+        <p class="peran-desc">Ikut serta dalam tahap perencanaan sistem — merancang alur kerja, user flow, dan turut membantu desain struktur tabel MySQL serta koneksi database dengan PHP.</p>
+        <div class="peran-skills">
+          <span class="peran-skill">System Planning</span>
+          <span class="peran-skill">MySQL</span>
+          <span class="peran-skill">PHP</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ GALLERY ═══════ -->
+<!-- CHANGED: First item replaced with YouTube embed area; others labeled "dari video demo" -->
+<section id="gallery">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5 fu">
+      <div class="section-label d-inline-flex">06 — Preview</div>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.7rem);line-height:1.1">
+        Tampilan <span class="grad-text">WeFundIt</span>
+      </h2>
+      <p style="color:var(--muted);font-size:.88rem;font-weight:300;max-width:480px;margin:.6rem auto 0;line-height:1.8">
+        Preview diambil dari video demo project — source code asli tidak tersedia.
+      </p>
+    </div>
+    <div class="gallery-grid fu">
+
+      <!-- Item 1: YouTube video embed (spans full width) -->
+      <div class="gal-item" style="grid-column: 1 / 4;">
+        <!--
+          PETUNJUK: Ganti YOUR_VIDEO_ID di bawah dengan ID video YouTube kamu.
+          Contoh: jika URL YouTube adalah https://youtu.be/dQw4w9WgXcQ
+          maka YOUR_VIDEO_ID = dQw4w9WgXcQ
+        -->
+        <div class="gal-video-wrap" onclick="window.open('https://youtu.be/HkoHqa4wz2w','_blank')" style="cursor:pointer">
+          <img src="https://img.youtube.com/vi/HkoHqa4wz2w/maxresdefault.jpg" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <!-- iframe akan muncul setelah diklik, atau isi langsung di sini: -->
+        <!-- <div class="gal-video-wrap">
+          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1" allowfullscreen allow="autoplay"></iframe>
+        </div> -->
+      </div>
+
+
+    </div>
+
+    <!-- Gallery note -->
+    <div class="gallery-note fu d1">
+      <i class="bi bi-info-circle-fill"></i>
+      <p>Screenshot statis tidak tersedia karena project tidak ter-backup. Seluruh preview dapat dilihat langsung melalui <strong style="color:var(--txt)">video demo</strong> yang tersedia di atas. Untuk dokumentasi lengkap, lihat laporan project di bagian Catatan Project.</p>
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ TANTANGAN & SOLUSI ═══════ -->
+<section id="tantangan">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5 fu">
+      <div class="section-label d-inline-flex">07 — Tantangan &amp; Solusi</div>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.7rem);line-height:1.1">
+        Yang kami hadapi &amp; <span class="grad-text">cara mengatasinya</span>
+      </h2>
+    </div>
+    <div class="ts-grid">
+
+      <div class="ts-card ts-challenge fu d1">
+        <div class="ts-head">
+          <div class="ts-ico ts-ico-c"><i class="bi bi-exclamation-triangle"></i></div>
+          <div class="ts-title">Tantangan</div>
+        </div>
+        <ul class="ts-list">
+          <li>Validasi form yang tidak konsisten — beberapa input bisa dikosongkan dan lolos ke database</li>
+          <li>Tampilan tidak responsif di layar ponsel kecil, terutama pada halaman keranjang dan checkout</li>
+          <li>Tidak ada sistem backup otomatis — menyebabkan source code hilang setelah project selesai</li>
+          <li>Manajemen sesi PHP yang perlu diperhatikan agar tidak konflik saat beberapa pengguna aktif bersamaan</li>
+          <li>Integrasi payment gateway yang lebih kompleks dari yang direncanakan di awal</li>
+        </ul>
+      </div>
+
+      <div class="ts-card ts-solution fu d2">
+        <div class="ts-head">
+          <div class="ts-ico ts-ico-s"><i class="bi bi-lightbulb"></i></div>
+          <div class="ts-title">Solusi &amp; Pembelajaran</div>
+        </div>
+        <ul class="ts-list">
+          <li>Menambahkan validasi JavaScript di sisi frontend dan validasi PHP di sisi server secara bersamaan</li>
+          <li>Menggunakan Bootstrap Grid secara konsisten dan menambahkan media query tambahan untuk layar kecil</li>
+          <li>Pelajaran penting: selalu gunakan version control (Git) sejak awal project — tidak hanya mengandalkan file lokal</li>
+          <li>Menggunakan session_start() terpusat dan menerapkan pengecekan autentikasi di setiap halaman yang diproteksi</li>
+          <li>Pembayaran disederhanakan menjadi konfirmasi manual (transfer / COD) yang lebih feasible untuk skala sekolah</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ HASIL ═══════ -->
+<section id="hasil">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-2 fu">
+      <div class="section-label d-inline-flex">08 — Hasil &amp; Impact</div>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.7rem);line-height:1.1">
+        Apa yang berhasil <span class="grad-text">dicapai?</span>
+      </h2>
+    </div>
+    <div class="impact-grid fu d1">
+      <div class="impact-card">
+        <div class="impact-icon"><i class="bi bi-rocket-takeoff"></i></div>
+        <div class="impact-value">100%</div>
+        <div class="impact-label">Fitur utama berjalan sesuai rencana</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon"><i class="bi bi-phone"></i></div>
+        <div class="impact-value">Responsif</div>
+        <div class="impact-label">Tampil baik di mobile &amp; desktop</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon"><i class="bi bi-lightning-charge"></i></div>
+        <div class="impact-value">Otomatis</div>
+        <div class="impact-label">Rekap penjualan tanpa pencatatan manual</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon"><i class="bi bi-bullseye"></i></div>
+        <div class="impact-value">3 Role</div>
+        <div class="impact-label">Admin, Pembeli &amp; Pengunjung terlayani</div>
+      </div>
+    </div>
+    <div class="hasil-desc fu d2">
+      <p>
+        WeFundIt berhasil membuktikan bahwa kegiatan danus sekolah dapat dijalankan secara lebih <strong style="color:var(--accent)">efisien dan modern</strong> melalui platform digital. Panitia tidak lagi perlu mencatat transaksi secara manual — semua terekap otomatis di dashboard admin, termasuk jumlah pesanan, produk terlaris, dan status pembayaran.
+      </p>
+      <p>
+        Project ini berhasil digunakan sebagai <strong style="color:var(--accent)">simulasi sistem e-commerce</strong> di lingkungan sekolah. Fitur-fitur utama seperti login, pengelolaan produk, keranjang belanja, dan transaksi telah berhasil diimplementasikan dan didemonstrasikan dalam video demo.
+      </p>
+      <p>
+        Meskipun source code tidak lagi tersedia, pengalaman dan kompetensi yang didapat dari project ini — mulai dari perencanaan sistem, pengembangan frontend, hingga integrasi backend PHP — tetap menjadi bagian penting dari proses belajar di jurusan SIJA.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ CATATAN PROJECT (NEW SECTION) ═══════ -->
+<section id="catatan">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5 fu">
+      <div class="section-label d-inline-flex">09 — Catatan Project</div>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.5vw,2.7rem);line-height:1.1">
+        Transparansi &amp; <span class="grad-text">Bukti Project</span>
+      </h2>
+    </div>
+    <div class="catatan-box fu">
+      <div class="catatan-header">
+        <div class="catatan-ico"><i class="bi bi-clipboard2-check"></i></div>
+        <div>
+          <h4>Tentang Ketersediaan Project Ini</h4>
+          <p>Informasi penting yang perlu diketahui mengenai status proyek WeFundIt</p>
+        </div>
+      </div>
+
+      <div class="catatan-items">
+        <div class="catatan-item">
+          <div class="catatan-item-ico ci-warn"><i class="bi bi-info-circle"></i></div>
+          <div class="catatan-item-text">
+            <strong>Proyek simulasi pembelajaran</strong> — WeFundIt adalah proyek yang dibuat khusus untuk keperluan pembelajaran mata pelajaran Platform as a Service (PaaS) di SMK Negeri 2 Depok Sleman. Proyek ini bukan produk komersial dan tidak pernah digunakan secara langsung oleh warga sekolah.
+          </div>
+        </div>
+        <div class="catatan-item">
+          <div class="catatan-item-ico ci-warn"><i class="bi bi-exclamation-circle"></i></div>
+          <div class="catatan-item-text">
+            <strong>Source code tidak tersedia</strong> — Sayangnya, file source code proyek ini tidak ter-backup dengan baik setelah pengerjaan selesai. Proyek ini dikerjakan secara lokal tanpa menggunakan version control seperti Git/GitHub, sehingga file tidak dapat diakses kembali. Ini menjadi pelajaran penting tentang pentingnya backup dan version control sejak awal pengembangan.
+          </div>
+        </div>
+        <div class="catatan-item">
+          <div class="catatan-item-ico ci-doc"><i class="bi bi-file-earmark-check"></i></div>
+          <div class="catatan-item-text">
+            <strong>Dokumentasi tersedia</strong> — Sebagai bukti pengerjaan, tersedia laporan project lengkap yang mencakup latar belakang, analisis kebutuhan, desain sistem, implementasi, dan kesimpulan. Laporan ini disusun sebagai bagian dari penilaian mata pelajaran.
+          </div>
+        </div>
+        <div class="catatan-item">
+          <div class="catatan-item-ico ci-vid"><i class="bi bi-youtube"></i></div>
+          <div class="catatan-item-text">
+            <strong>Video demo tersedia</strong> — Seluruh fitur dan alur penggunaan aplikasi telah direkam dalam bentuk video demonstrasi yang tersimpan di YouTube. Video ini menampilkan tampilan login, halaman produk, keranjang belanja, proses checkout, dan dashboard admin secara langsung.
+          </div>
+        </div>
+      </div>
+
+      <!-- Proof links -->
+      <div style="border-top: 1px solid var(--border); padding-top: 1.4rem; margin-top: .5rem;">
+        <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:.9rem;">Bukti yang tersedia</div>
+        <div class="catatan-proof">
+          <!--
+            Ganti href="#" di bawah dengan:
+            - URL YouTube video demo kamu
+            - URL / path laporan PDF kamu
+          -->
+          <a href="https://youtu.be/HkoHqa4wz2w" class="proof-tag pt-yt">
+            <i class="bi bi-youtube"></i> Video Demo (YouTube)
+          </a>
+          <a href="Laporan WeFundIt-Kelompok 2.pdf" class="proof-tag pt-doc">
+            <i class="bi bi-file-earmark-pdf"></i> Laporan Project (PDF)
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr-fade"></div>
+
+<!-- ═══════ CTA ═══════ -->
+<section id="cta">
+  <div class="container" style="max-width:700px">
+    <div class="cta-box fu">
+      <h3>Lihat project lainnya <span class="grad-text">✦</span></h3>
+      <p>Masih banyak project lain yang pernah aku kerjain — dari IoT, desain UI/UX, sampai konfigurasi jaringan.</p>
+      <div class="cta-btns">
+        <a href="luneta-gavrilla-portfolio.html" class="btn-glow"><i class="bi bi-arrow-left"></i> Kembali ke Portfolio</a>
+        <!-- CHANGED: GitHub replaced with Laporan -->
+        <a href="Laporan WeFundIt-Kelompok 2.pdf" class="btn-ghost"><i class="bi bi-file-earmark-text"></i> Lihat Laporan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-logo">Luneta<em>.</em>Gavrilla</div>
+    <div class="foot-copy">© 2025 · Kelas XII SIJA · SMK Negeri 2 Depok Sleman</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* navbar scroll */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', scrollY > 40);
+});
+
+/* smooth scroll */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (!t) return; e.preventDefault();
+    window.scrollTo({ top: t.offsetTop - 66, behavior: 'smooth' });
+  });
+});
+
+/* fade-up observer */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(el => {
+    if (el.isIntersecting) { el.target.classList.add('in'); obs.unobserve(el.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+/* YouTube embed loader
+   Ganti YOUR_VIDEO_ID dengan ID video YouTube kamu
+   Contoh: dQw4w9WgXcQ dari https://youtu.be/dQw4w9WgXcQ
+*/
+function loadYoutube() {
+  const VIDEO_ID = 'HkoHqa4wz2w'; // <-- ganti ini
+  const ph = document.getElementById('ytPlaceholder');
+  if (VIDEO_ID === 'YOUR_VIDEO_ID') {
+    // Jika belum diisi, tampilkan instruksi
+    ph.querySelector('.yt-sub').textContent = 'Isi VIDEO_ID di variabel loadYoutube() pada bagian <script> di bawah halaman ini.';
+    return;
+  }
+  const wrap = document.createElement('div');
+  wrap.className = 'gal-video-wrap';
+  wrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+  ph.parentNode.replaceChild(wrap, ph);
+}
+</script>
+</body>
+</html>
